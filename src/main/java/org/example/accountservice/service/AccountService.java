@@ -3,6 +3,7 @@ package org.example.accountservice.service;
 import lombok.extern.slf4j.Slf4j;
 import org.example.accountservice.dto.AccountDto;
 import org.example.accountservice.entity.Account;
+import org.example.accountservice.mapper.AccountMapper;
 import org.example.accountservice.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,15 +27,7 @@ public class AccountService {
     log.info("Get accounts : {}", accounts);
 
     return accounts.stream()
-            .map(this::convertToDto)
+            .map(AccountMapper::mapToAccountDto)
             .collect(Collectors.toList());
-  }
-
-  private AccountDto convertToDto(Account account) {
-    return new AccountDto(
-            account.getAccountNumber(),
-            account.getAccountType(),
-            account.getBranchAddress()
-    );
   }
 }
