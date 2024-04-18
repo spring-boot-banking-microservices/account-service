@@ -12,7 +12,9 @@ public class AccountMapper {
     );
   }
 
-  public static Account mapToAccount(AccountDto accountDto, Account account) {
+  public static Account mapToAccount(AccountDto accountDto) {
+    Account account = new Account();
+
     account.setAccountNumber(accountDto.accountNumber());
     account.setAccountType(accountDto.accountType());
     account.setBranchAddress(accountDto.branchAddress());
