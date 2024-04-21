@@ -6,6 +6,7 @@ import org.example.accountservice.dto.AccountDto;
 import org.example.accountservice.dto.CustomerDto;
 import org.example.accountservice.entity.Account;
 import org.example.accountservice.entity.Customer;
+import org.example.accountservice.exception.CustomerAlreadyExistsException;
 import org.example.accountservice.mapper.AccountMapper;
 import org.example.accountservice.mapper.CustomerMapper;
 import org.example.accountservice.repository.AccountRepository;
@@ -45,13 +46,28 @@ public class AccountService {
    *
    * @param customerDto The customer data transfer object containing the customer's information.
    *                    The object should contain the customer's name, email, and mobile number.
+   * @throws CustomerAlreadyExistsException If a customer already exists with the provided mobile number.
    */
   public void createAccount(CustomerDto customerDto) {
+    validateCustomerDoesNotExist(customerDto.mobileNumber());
+
     Customer customer = mapAndSaveCustomer(customerDto);
 
     Account account = createAccountForCustomer(customer);
 
     accountRepository.save(account);
+  }
+
+  /**
+   * Validates if a customer with the given mobile number already exists in the system.
+   *
+   * @param mobileNumber The mobile number to check for an existing customer.
+   * @throws CustomerAlreadyExistsException If a customer already exists with the provided mobile number.
+   */
+  private void validateCustomerDoesNotExist(String mobileNumber) {
+    if (customerRepository.findByMobileNumber(mobileNumber).isPresent()) {
+      throw new CustomerAlreadyExistsException("Customer", "mobileNumber", mobileNumber);
+    }
   }
 
   /**
