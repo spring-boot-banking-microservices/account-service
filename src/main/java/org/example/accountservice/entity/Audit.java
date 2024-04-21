@@ -22,11 +22,11 @@ import java.time.LocalDateTime;
 public abstract class Audit {
   @CreatedDate
   @Column(updatable = false, nullable = false)
-  private LocalDateTime createdAt;
+  private LocalDateTime createdAt = LocalDateTime.now();
 
   @CreatedBy
   @Column(updatable = false, nullable = false, length = 20)
-  private String createdBy;
+  private String createdBy = "system";
 
   @LastModifiedDate
   @Column(insertable = false)
