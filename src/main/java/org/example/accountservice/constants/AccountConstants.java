@@ -1,4 +1,4 @@
-package constants;
+package org.example.accountservice.constants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
