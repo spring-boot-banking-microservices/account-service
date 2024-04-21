@@ -11,7 +11,7 @@ public class AccountMapperTest {
   void testMapToAccountDto() {
     // Given
     Account account = new Account();
-    account.setAccountNumber("ACC001");
+    account.setAccountNumber(10000000L);
     account.setAccountType("Savings");
     account.setBranchAddress("123 Main St, City");
 
@@ -19,7 +19,7 @@ public class AccountMapperTest {
     AccountDto accountDto = AccountMapper.mapToAccountDto(account);
 
     // Then
-    assertEquals("ACC001", accountDto.accountNumber());
+    assertEquals(10000000L, accountDto.accountNumber());
     assertEquals("Savings", accountDto.accountType());
     assertEquals("123 Main St, City", accountDto.branchAddress());
   }
@@ -27,13 +27,13 @@ public class AccountMapperTest {
   @Test
   void testMapToAccount() {
     // Given
-    AccountDto accountDto = new AccountDto("ACC001", "Savings", "123 Main St, City");
+    AccountDto accountDto = new AccountDto(10000000L, "Savings", "123 Main St, City");
 
     // When
     Account account = AccountMapper.mapToAccount(accountDto);
 
     // Then
-    assertEquals("ACC001", account.getAccountNumber());
+    assertEquals(10000000L, account.getAccountNumber());
     assertEquals("Savings", account.getAccountType());
     assertEquals("123 Main St, City", account.getBranchAddress());
   }
