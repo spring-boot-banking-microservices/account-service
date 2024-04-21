@@ -1,7 +1,7 @@
 package org.example.accountservice.dto;
 
 public record AccountDto(
-        String accountNumber,
+        Long accountNumber,
         String accountType,
         String branchAddress
 ) {
