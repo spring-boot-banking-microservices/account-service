@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -28,6 +27,6 @@ public class CustomerService {
 
     return customers.stream()
             .map(CustomerMapper::mapToCustomerDto)
-            .collect(Collectors.toList());
+            .toList();
   }
 }

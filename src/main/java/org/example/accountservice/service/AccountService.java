@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -38,7 +37,7 @@ public class AccountService {
 
     return accounts.stream()
             .map(AccountMapper::mapToAccountDto)
-            .collect(Collectors.toList());
+            .toList();
   }
 
   /**
