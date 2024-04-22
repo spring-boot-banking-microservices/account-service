@@ -4,6 +4,13 @@ import org.example.accountservice.dto.CustomerDto;
 import org.example.accountservice.entity.Customer;
 
 public class CustomerMapper {
+  /**
+   * Private constructor to hide the implicit public one
+   */
+  private CustomerMapper() {
+    throw new IllegalStateException("Utility class");
+  }
+
   public static CustomerDto mapToCustomerDto(Customer customer) {
     return new CustomerDto(
             customer.getName(),

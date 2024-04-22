@@ -4,6 +4,13 @@ import org.example.accountservice.dto.AccountDto;
 import org.example.accountservice.entity.Account;
 
 public class AccountMapper {
+  /**
+   * Private constructor to hide the implicit public one
+   */
+  private AccountMapper() {
+    throw new IllegalStateException("Utility class");
+  }
+
   public static AccountDto mapToAccountDto(Account account) {
     return new AccountDto(
             account.getAccountNumber(),
