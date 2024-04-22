@@ -52,7 +52,7 @@ public class AccountService {
 
     Customer customer = mapAndSaveCustomer(customerDto);
 
-    Account account = createAccountForCustomer(customer);
+    Account account = createAccountForCustomer(customer.getId());
 
     accountRepository.save(account);
   }
@@ -85,13 +85,13 @@ public class AccountService {
    * Creates a new Account entity for the given Customer.
    * Generates a random account number and sets other account details.
    *
-   * @param customer The Customer entity for which the account is being created.
+   * @param customerId The Customer id for which the account is being created.
    * @return The newly created Account entity.
    */
-  private Account createAccountForCustomer(Customer customer) {
+  private Account createAccountForCustomer(Long customerId) {
     Long accountNumber = generateRandomAccountNumber();
 
-    return buildAccount(accountNumber, customer);
+    return buildAccount(accountNumber, customerId);
   }
 
   /**
@@ -107,16 +107,16 @@ public class AccountService {
    * Builds an Account entity with the given account number and associated Customer.
    *
    * @param accountNumber The account number to set for the Account entity.
-   * @param customer      The Customer entity to associate with the Account.
+   * @param customerId      The Customer id to associate with the Account.
    * @return The built Account entity.
    */
-  private Account buildAccount(Long accountNumber, Customer customer) {
+  private Account buildAccount(Long accountNumber, Long customerId) {
     Account account = new Account();
 
     account.setAccountNumber(accountNumber);
     account.setAccountType(AccountConstants.SAVINGS.getValue());
     account.setBranchAddress(AccountConstants.ADDRESS.getValue());
-    account.setCustomerId(customer.getId());
+    account.setCustomerId(customerId);
 
     return account;
   }
