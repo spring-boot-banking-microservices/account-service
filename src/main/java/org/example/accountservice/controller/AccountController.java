@@ -1,6 +1,7 @@
 package org.example.accountservice.controller;
 
 import org.example.accountservice.constants.AccountConstants;
+import org.example.accountservice.dto.AccountCustomerDto;
 import org.example.accountservice.dto.AccountDto;
 import org.example.accountservice.dto.CustomerDto;
 import org.example.accountservice.dto.ResponseDto;
@@ -44,5 +45,18 @@ public class AccountController {
                     AccountConstants.STATUS_201.getValue(),
                     AccountConstants.MESSAGE_201.getValue())
             );
+  }
+
+  /**
+   * Fetches the account and customer details based on the provided mobile number.
+   *
+   * @param mobileNumber The mobile number associated with the customer.
+   * @return ResponseEntity containing the AccountCustomerDto object with the account and customer details.
+   */
+  @GetMapping("/fetch")
+  public ResponseEntity<AccountCustomerDto> fetchAccountAndCustomer(@RequestParam String mobileNumber) {
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(accountService.fetchAccountAndCustomer(mobileNumber));
   }
 }

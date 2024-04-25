@@ -2,11 +2,13 @@ package org.example.accountservice.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.accountservice.constants.AccountConstants;
+import org.example.accountservice.dto.AccountCustomerDto;
 import org.example.accountservice.dto.AccountDto;
 import org.example.accountservice.dto.CustomerDto;
 import org.example.accountservice.entity.Account;
 import org.example.accountservice.entity.Customer;
 import org.example.accountservice.exception.CustomerAlreadyExistsException;
+import org.example.accountservice.exception.ResourceNotFoundException;
 import org.example.accountservice.mapper.AccountMapper;
 import org.example.accountservice.mapper.CustomerMapper;
 import org.example.accountservice.repository.AccountRepository;
@@ -119,5 +121,48 @@ public class AccountService {
     account.setCustomerId(customerId);
 
     return account;
+  }
+
+  /**
+   * Fetches the account and customer details based on the provided mobile number.
+   *
+   * @param mobileNumber The mobile number associated with the customer.
+   * @return AccountCustomerDto object containing the account and customer details.
+   */
+  public AccountCustomerDto fetchAccountAndCustomer(String mobileNumber) {
+    Customer customer = getCustomerByMobileNumber(mobileNumber);
+
+    Account account = getAccountByCustomerId(customer.getId());
+
+    return new AccountCustomerDto(
+            AccountMapper.mapToAccountDto(account),
+            CustomerMapper.mapToCustomerDto(customer)
+    );
+  }
+
+  /**
+   * Retrieves the customer entity associated with the provided mobile number.
+   *
+   * @param mobileNumber The mobile number associated with the customer.
+   * @return Customer entity associated with the provided mobile number.
+   * @throws ResourceNotFoundException if the customer is not found for the given mobile number.
+   */
+  private Customer getCustomerByMobileNumber(String mobileNumber) {
+    return customerRepository.findByMobileNumber(mobileNumber).orElseThrow(() ->
+            new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
+    );
+  }
+
+  /**
+   * Retrieves the account entity associated with the provided customer ID.
+   *
+   * @param customerId The ID of the customer associated with the account.
+   * @return Account entity associated with the provided customer ID.
+   * @throws ResourceNotFoundException if the account is not found for the given customer ID.
+   */
+  private Account getAccountByCustomerId(Long customerId) {
+    return accountRepository.findByCustomerId(customerId).orElseThrow(() ->
+            new ResourceNotFoundException("Account", "customerId", customerId.toString())
+    );
   }
 }
