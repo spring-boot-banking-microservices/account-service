@@ -165,4 +165,63 @@ public class AccountService {
             new ResourceNotFoundException("Account", "customerId", customerId.toString())
     );
   }
+
+  /**
+   * Updates the account and customer details based on the provided AccountCustomerDto.
+   *
+   * @param accountCustomerDto The DTO containing the account and customer details to be updated.
+   * @return true if the update operation is successful, false otherwise.
+   */
+  public boolean updateAccountAndCustomer(AccountCustomerDto accountCustomerDto) {
+    boolean isUpdated = false;
+
+    AccountDto accountDto = accountCustomerDto.accountDto();
+    CustomerDto customerDto = accountCustomerDto.customerDto();
+
+    if (accountDto != null && customerDto != null) {
+      Long accountNumber = accountDto.accountNumber();
+      Account account = getAccountByAccountNumber(accountNumber);
+      Customer customer = getCustomerById(account.getCustomerId());
+
+      Account updatedAccount = AccountMapper.mapToAccount(accountDto);
+      Customer updatedCustomer = CustomerMapper.mapToCustomer(customerDto);
+
+      updatedCustomer.setId(customer.getId());
+      updatedAccount.setId(account.getId());
+      updatedAccount.setCustomerId(customer.getId());
+
+      customerRepository.save(updatedCustomer);
+      accountRepository.save(updatedAccount);
+
+      isUpdated = true;
+    }
+
+    return isUpdated;
+  }
+
+  /**
+   * Retrieves the customer entity associated with the provided customer ID.
+   *
+   * @param customerId The ID of the customer to retrieve.
+   * @return Customer entity associated with the provided customer ID.
+   * @throws ResourceNotFoundException if the customer is not found for the given customer ID.
+   */
+  private Customer getCustomerById(Long customerId) {
+    return customerRepository.findById(customerId).orElseThrow(() ->
+            new ResourceNotFoundException("Customer", "customerId", customerId.toString())
+    );
+  }
+
+  /**
+   * Retrieves the account entity associated with the provided account number.
+   *
+   * @param accountNumber The account number to retrieve the account for.
+   * @return Account entity associated with the provided account number.
+   * @throws ResourceNotFoundException if the account is not found for the given account number.
+   */
+  private Account getAccountByAccountNumber(Long accountNumber) {
+    return accountRepository.findByAccountNumber(accountNumber).orElseThrow(() ->
+            new ResourceNotFoundException("Account", "accountNumber", accountNumber.toString())
+    );
+  }
 }

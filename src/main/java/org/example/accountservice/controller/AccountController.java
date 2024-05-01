@@ -59,4 +59,31 @@ public class AccountController {
             .status(HttpStatus.OK)
             .body(accountService.fetchAccountAndCustomer(mobileNumber));
   }
+
+  /**
+   * Endpoint to update both the account and customer details.
+   *
+   * @param accountCustomerDto The DTO containing the account and customer details to be updated.
+   * @return ResponseEntity containing the HTTP status and response message upon successful or failed update.
+   */
+  @PutMapping("/update")
+  public ResponseEntity<ResponseDto> updateAccountAndCustomer(@RequestBody AccountCustomerDto accountCustomerDto) {
+    boolean isUpdated = accountService.updateAccountAndCustomer(accountCustomerDto);
+
+    if (isUpdated) {
+      return ResponseEntity
+              .status(HttpStatus.OK)
+              .body(new ResponseDto(
+                      AccountConstants.STATUS_200.getValue(),
+                      AccountConstants.MESSAGE_200.getValue())
+              );
+    } else {
+      return ResponseEntity
+              .status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .body(new ResponseDto(
+                      AccountConstants.STATUS_500.getValue(),
+                      AccountConstants.MESSAGE_500.getValue())
+              );
+    }
+  }
 }
