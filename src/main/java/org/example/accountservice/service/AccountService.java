@@ -224,4 +224,21 @@ public class AccountService {
             new ResourceNotFoundException("Account", "accountNumber", accountNumber.toString())
     );
   }
+
+  /**
+   * Deletes the account and customer associated with the provided mobile number.
+   *
+   * @param mobileNumber The mobile number of the customer whose account and details need to be deleted.
+   * @return true if the deletion operation is successful, false otherwise.
+   * @throws ResourceNotFoundException if the customer associated with the provided mobile number is not found.
+   */
+  public boolean deleteAccountAndCustomer(String mobileNumber) {
+    Customer customer = getCustomerByMobileNumber(mobileNumber);
+
+    Long customerId = customer.getId();
+    accountRepository.deleteByCustomerId(customerId);
+    customerRepository.deleteById(customerId);
+
+    return true;
+  }
 }
