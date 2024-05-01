@@ -86,4 +86,31 @@ public class AccountController {
               );
     }
   }
+
+  /**
+   * Deletes the account and customer associated with the provided mobile number.
+   *
+   * @param mobileNumber The mobile number of the customer whose account and details need to be deleted.
+   * @return A ResponseEntity containing the response status and a message indicating the result of the deletion operation.
+   */
+  @DeleteMapping("/delete")
+  public ResponseEntity<ResponseDto> deleteAccountAndCustomer(@RequestParam String mobileNumber) {
+    boolean isDeleted = accountService.deleteAccountAndCustomer(mobileNumber);
+
+    if (isDeleted) {
+      return ResponseEntity
+              .status(HttpStatus.OK)
+              .body(new ResponseDto(
+                      AccountConstants.STATUS_200.getValue(),
+                      AccountConstants.MESSAGE_200.getValue())
+              );
+    } else {
+      return ResponseEntity
+              .status(HttpStatus.INTERNAL_SERVER_ERROR)
+              .body(new ResponseDto(
+                      AccountConstants.STATUS_500.getValue(),
+                      AccountConstants.MESSAGE_500.getValue())
+              );
+    }
+  }
 }
