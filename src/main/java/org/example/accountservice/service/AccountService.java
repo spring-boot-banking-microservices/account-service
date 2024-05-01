@@ -1,7 +1,7 @@
 package org.example.accountservice.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.accountservice.constants.AccountConstants;
+import org.example.accountservice.constants.Constants;
 import org.example.accountservice.dto.AccountCustomerDto;
 import org.example.accountservice.dto.AccountDto;
 import org.example.accountservice.dto.CustomerDto;
@@ -67,7 +67,7 @@ public class AccountService {
    */
   private void validateCustomerDoesNotExist(String mobileNumber) {
     if (customerRepository.findByMobileNumber(mobileNumber).isPresent()) {
-      throw new CustomerAlreadyExistsException("Customer", "mobileNumber", mobileNumber);
+      throw new CustomerAlreadyExistsException(Constants.CUSTOMER.getValue(), "mobileNumber", mobileNumber);
     }
   }
 
@@ -116,8 +116,8 @@ public class AccountService {
     Account account = new Account();
 
     account.setAccountNumber(accountNumber);
-    account.setAccountType(AccountConstants.SAVINGS.getValue());
-    account.setBranchAddress(AccountConstants.ADDRESS.getValue());
+    account.setAccountType(Constants.SAVINGS.getValue());
+    account.setBranchAddress(Constants.ADDRESS.getValue());
     account.setCustomerId(customerId);
 
     return account;
@@ -149,7 +149,7 @@ public class AccountService {
    */
   private Customer getCustomerByMobileNumber(String mobileNumber) {
     return customerRepository.findByMobileNumber(mobileNumber).orElseThrow(() ->
-            new ResourceNotFoundException("Customer", "mobileNumber", mobileNumber)
+            new ResourceNotFoundException(Constants.CUSTOMER.getValue(), "mobileNumber", mobileNumber)
     );
   }
 
@@ -162,7 +162,7 @@ public class AccountService {
    */
   private Account getAccountByCustomerId(Long customerId) {
     return accountRepository.findByCustomerId(customerId).orElseThrow(() ->
-            new ResourceNotFoundException("Account", "customerId", customerId.toString())
+            new ResourceNotFoundException(Constants.ACCOUNT.getValue(), "customerId", customerId.toString())
     );
   }
 
@@ -208,7 +208,7 @@ public class AccountService {
    */
   private Customer getCustomerById(Long customerId) {
     return customerRepository.findById(customerId).orElseThrow(() ->
-            new ResourceNotFoundException("Customer", "customerId", customerId.toString())
+            new ResourceNotFoundException(Constants.CUSTOMER.getValue(), "customerId", customerId.toString())
     );
   }
 
@@ -221,7 +221,7 @@ public class AccountService {
    */
   private Account getAccountByAccountNumber(Long accountNumber) {
     return accountRepository.findByAccountNumber(accountNumber).orElseThrow(() ->
-            new ResourceNotFoundException("Account", "accountNumber", accountNumber.toString())
+            new ResourceNotFoundException(Constants.ACCOUNT.getValue(), "accountNumber", accountNumber.toString())
     );
   }
 

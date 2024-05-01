@@ -5,7 +5,13 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum AccountConstants {
+public enum Constants {
+  // Account
+  ACCOUNT("Account"),
+
+  // Customer
+  CUSTOMER("Customer"),
+
   // Account Types
   SAVINGS("Savings"),
 

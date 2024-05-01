@@ -1,6 +1,6 @@
 package org.example.accountservice.controller;
 
-import org.example.accountservice.constants.AccountConstants;
+import org.example.accountservice.constants.Constants;
 import org.example.accountservice.dto.AccountCustomerDto;
 import org.example.accountservice.dto.AccountDto;
 import org.example.accountservice.dto.CustomerDto;
@@ -42,8 +42,8 @@ public class AccountController {
     return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(new ResponseDto(
-                    AccountConstants.STATUS_201.getValue(),
-                    AccountConstants.MESSAGE_201.getValue())
+                    Constants.STATUS_201.getValue(),
+                    Constants.MESSAGE_201.getValue())
             );
   }
 
@@ -74,15 +74,15 @@ public class AccountController {
       return ResponseEntity
               .status(HttpStatus.OK)
               .body(new ResponseDto(
-                      AccountConstants.STATUS_200.getValue(),
-                      AccountConstants.MESSAGE_200.getValue())
+                      Constants.STATUS_200.getValue(),
+                      Constants.MESSAGE_200.getValue())
               );
     } else {
       return ResponseEntity
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .body(new ResponseDto(
-                      AccountConstants.STATUS_500.getValue(),
-                      AccountConstants.MESSAGE_500.getValue())
+                      Constants.STATUS_500.getValue(),
+                      Constants.MESSAGE_500.getValue())
               );
     }
   }
@@ -101,15 +101,15 @@ public class AccountController {
       return ResponseEntity
               .status(HttpStatus.OK)
               .body(new ResponseDto(
-                      AccountConstants.STATUS_200.getValue(),
-                      AccountConstants.MESSAGE_200.getValue())
+                      Constants.STATUS_200.getValue(),
+                      Constants.MESSAGE_200.getValue())
               );
     } else {
       return ResponseEntity
               .status(HttpStatus.INTERNAL_SERVER_ERROR)
               .body(new ResponseDto(
-                      AccountConstants.STATUS_500.getValue(),
-                      AccountConstants.MESSAGE_500.getValue())
+                      Constants.STATUS_500.getValue(),
+                      Constants.MESSAGE_500.getValue())
               );
     }
   }
