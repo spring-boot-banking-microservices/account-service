@@ -1,5 +1,7 @@
 package org.example.accountservice.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import org.example.accountservice.constants.Constants;
 import org.example.accountservice.dto.AccountCustomerDto;
 import org.example.accountservice.dto.AccountDto;
@@ -10,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/accounts", produces = {MediaType.APPLICATION_JSON_VALUE})
+@Validated
 public class AccountController {
   private final AccountService accountService;
 
@@ -36,7 +40,7 @@ public class AccountController {
    * @return ResponseEntity containing the HTTP status and response message upon successful account creation.
    */
   @PostMapping("/create")
-  public ResponseEntity<ResponseDto> createAccount(@RequestBody CustomerDto customerDto) {
+  public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
     accountService.createAccount(customerDto);
 
     return ResponseEntity
@@ -54,7 +58,11 @@ public class AccountController {
    * @return ResponseEntity containing the AccountCustomerDto object with the account and customer details.
    */
   @GetMapping("/fetch")
-  public ResponseEntity<AccountCustomerDto> fetchAccountAndCustomer(@RequestParam String mobileNumber) {
+  public ResponseEntity<AccountCustomerDto> fetchAccountAndCustomer(
+          @RequestParam
+          @Pattern(regexp = "^\\d{10}$", message = "Mobile number must be exactly 10 digits")
+          String mobileNumber
+  ) {
     return ResponseEntity
             .status(HttpStatus.OK)
             .body(accountService.fetchAccountAndCustomer(mobileNumber));
@@ -67,7 +75,7 @@ public class AccountController {
    * @return ResponseEntity containing the HTTP status and response message upon successful or failed update.
    */
   @PutMapping("/update")
-  public ResponseEntity<ResponseDto> updateAccountAndCustomer(@RequestBody AccountCustomerDto accountCustomerDto) {
+  public ResponseEntity<ResponseDto> updateAccountAndCustomer(@Valid @RequestBody AccountCustomerDto accountCustomerDto) {
     boolean isUpdated = accountService.updateAccountAndCustomer(accountCustomerDto);
 
     if (isUpdated) {
@@ -94,7 +102,11 @@ public class AccountController {
    * @return A ResponseEntity containing the response status and a message indicating the result of the deletion operation.
    */
   @DeleteMapping("/delete")
-  public ResponseEntity<ResponseDto> deleteAccountAndCustomer(@RequestParam String mobileNumber) {
+  public ResponseEntity<ResponseDto> deleteAccountAndCustomer(
+          @RequestParam
+          @Pattern(regexp = "^\\d{10}$", message = "Mobile number must be exactly 10 digits")
+          String mobileNumber
+  ) {
     boolean isDeleted = accountService.deleteAccountAndCustomer(mobileNumber);
 
     if (isDeleted) {
