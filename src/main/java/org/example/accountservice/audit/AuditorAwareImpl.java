@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Component(value = "auditAwareImpl")
+@Component(value = "auditorAwareImpl")
 public class AuditorAwareImpl implements AuditorAware<String> {
   @Override
   @NonNull
