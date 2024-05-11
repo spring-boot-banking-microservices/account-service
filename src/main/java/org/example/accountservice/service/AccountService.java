@@ -16,13 +16,13 @@ import org.example.accountservice.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 
 @Service
 @Slf4j
 public class AccountService {
-  private final Random random = new Random();
+  private final SecureRandom random = new SecureRandom();
   private final AccountRepository accountRepository;
   private final CustomerRepository customerRepository;
 
