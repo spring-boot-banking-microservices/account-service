@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -91,24 +90,22 @@ public class AccountController {
    * @return ResponseEntity containing the HTTP status and response message upon successful or failed update.
    */
   @Operation(summary = "Update account and customer details", description = "Update both the account and customer details.")
-  @ApiResponses({
-          @ApiResponse(
-                  responseCode = "200",
-                  description = "Successful update",
-                  content = @Content(
-                          mediaType = "application/json",
-                          schema = @Schema(implementation = ResponseDto.class)
-                  )
-          ),
-          @ApiResponse(
-                  responseCode = "500",
-                  description = "Internal server error",
-                  content = @Content(
-                          mediaType = "application/json",
-                          schema = @Schema(implementation = ErrorResponseDto.class)
-                  )
+  @ApiResponse(
+          responseCode = "200",
+          description = "Successful update",
+          content = @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ResponseDto.class)
           )
-  })
+  )
+  @ApiResponse(
+          responseCode = "500",
+          description = "Internal server error",
+          content = @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ErrorResponseDto.class)
+          )
+  )
   @PutMapping("/update")
   public ResponseEntity<ResponseDto> updateAccountAndCustomer(@Valid @RequestBody AccountCustomerDto accountCustomerDto) {
     boolean isUpdated = accountService.updateAccountAndCustomer(accountCustomerDto);
@@ -140,24 +137,22 @@ public class AccountController {
           summary = "Delete account and customer",
           description = "Deletes the account and customer associated with the provided mobile number."
   )
-  @ApiResponses({
-          @ApiResponse(
-                  responseCode = "200",
-                  description = "Successful response",
-                  content = @Content(
-                          mediaType = "application/json",
-                          schema = @Schema(implementation = ResponseDto.class)
-                  )
-          ),
-          @ApiResponse(
-                  responseCode = "500",
-                  description = "Internal Server Error",
-                  content = @Content(
-                          mediaType = "application/json",
-                          schema = @Schema(implementation = ErrorResponseDto.class)
-                  )
+  @ApiResponse(
+          responseCode = "200",
+          description = "Successful response",
+          content = @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ResponseDto.class)
           )
-  })
+  )
+  @ApiResponse(
+          responseCode = "500",
+          description = "Internal Server Error",
+          content = @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = ErrorResponseDto.class)
+          )
+  )
   @DeleteMapping("/delete")
   public ResponseEntity<ResponseDto> deleteAccountAndCustomer(
           @RequestParam
